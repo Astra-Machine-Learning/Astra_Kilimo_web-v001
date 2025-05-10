@@ -1,0 +1,382 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Astra Kilimo</title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <!-- Boostrap CSS -->
+    <!-- Stylesheet -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+
+    <link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  rel="stylesheet"/>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+
+
+       <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/lucide/1.0.0-beta.0/lucide.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="flex flex-col min-h-screen bg-gray-50">
+    <!-- Navbar -->
+    <nav
+      class="navbar navbar-expand-lg bg-body-tertiary container-fluid position-fixed top-0"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand d-flex align-items-center justify-content-center"
+          href="#"
+          style="font-size: large; font-weight: 800; font-size: 1.8rem"
+        >
+          <img
+            src="{% static 'img/ai.png' %}"
+            alt=""
+            class="img-fluid me-2"
+            style="width: 35px; height: auto"
+          />Astra Kilimo</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarScroll"
+          aria-controls="navbarScroll"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+          <ul
+            class="navbar-nav me-auto ms-auto my-2 my-lg-0 gap-4 navbar-nav-scroll"
+          >
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Services
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#">Team</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Blog</a>
+            </li>
+          </ul>
+          <a
+            href="#"
+            class="btn text-white"
+            style="background-color: #71c55d"
+            >Get Started</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow" style="margin-top: 80px;">
+      <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8 text-center mb-5">
+        <h1 class="display-4 fw-bold text-gray-900">Crop Analysis</h1>
+        <p class="lead text-gray-600">
+          Upload an image of your crop and our AI will analyze it for
+          potential diseases and overall health.
+        </p>
+        </div>
+      </div>
+
+      <!-- Upload Section -->
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+        <div class="card shadow-lg border-0 rounded-lg">
+          <div class="card-body p-5">
+          <h2 class="h5 mb-4">Upload Crop Image</h2>
+          <form method="POST" enctype="multipart/form-data" id="uploadForm">
+            {% csrf_token %}
+            <div class="mb-3">
+            <input
+              type="file"
+              name="xray"
+              accept="image/*"
+              class="form-control"
+              required
+              id="xrayInput"
+            />
+            </div>
+            <div class="d-grid">
+            <button type="submit" class="btn " style="background-color: #71c55d; color: #fff;" id="analyzeButton">
+              Analyze Crop
+            </button>
+            </div>
+          </form>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <!-- Loading Section -->
+      <div class="row justify-content-center mt-5" id="loadingSection" style="display:none;">
+        <div class="col-md-8 text-center">
+        <div style="
+          width: 300px;
+          height: 250px;
+          background: linear-gradient(#03A9F4,#03A9F4), 
+          linear-gradient(90deg, #ffffff33 1px,transparent 0,transparent 19px),
+          linear-gradient(#ffffff33 1px,transparent 0,transparent 19px),
+          linear-gradient(transparent, #2196f387);
+          background-size:100% 1.5%, 10% 100%,100% 10%, 100% 100%;
+          background-repeat: no-repeat,repeat,repeat,no-repeat;
+          background-position: 0 0,0 0, 0 0, 0 0;
+          clip-path: polygon(0% 0%, 100% 0%, 100% 1.5%, 0% 1.5%);
+          animation: move 2s infinite linear;
+          margin: 0 auto; /* Center the loading div */
+        "></div>
+        <p>Analyzing...</p>
+        </div>
+      </div>
+
+      <!-- Results Section -->
+      {% if analysis_result %}
+      <div class="row justify-content-center mt-5" id="resultsSection">
+        <div class="col-md-8">
+        <div class="card shadow-lg border-0 rounded-lg">
+          <div class="card-body p-5">
+          <h2 class="h5 mb-4">Analysis Results</h2>
+            <p class="text-gray-600">{{ analysis_result|safe }}</p>
+          </div>
+        </div>
+        </div>
+      </div>
+      {% endif %}
+      </div>
+    </main>
+
+    <style>
+      @keyframes move{
+      to{
+        background-position: 0 100%,0 0, 0 0, 0 0;
+        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+      }  
+      }
+    </style>
+
+    <script>
+      document.getElementById('uploadForm').addEventListener('submit', function() {
+      document.getElementById('loadingSection').style.display = 'flex'; // Show loading section
+      document.getElementById('resultsSection').style.display = 'none'; // Hide results section
+      document.getElementById('analyzeButton').style.display = 'none'; // Hide analyze button
+      document.getElementById('xrayInput').style.display = 'none'; // Hide file input
+      });
+    </script>
+    
+
+<footer class="py-3 my-4">
+      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item">
+          <a href="#" class="nav-link px-2 text-muted">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link px-2 text-muted">Features</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link px-2 text-muted">Pricing</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link px-2 text-muted">FAQs</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link px-2 text-muted">About</a>
+        </li>
+      </ul>
+      <p class="text-center text-muted">© 2025 All rights reserved</p>
+  </footer>
+
+
+
+
+
+
+
+
+<!-- floating whatsapp button -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<a href="https://api.whatsapp.com/send?phone=+14155238886&text=Hello%21%20I%E2%80%99d%20like%20more%20information%20about%20my%20crops%20and%20farming%20support." class="float" target="_blank">
+<i class="fa fa-whatsapp my-float"></i>
+</a>
+
+  <style>
+    .float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	left:40px;
+	background-color:#25d366;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+  font-size:30px;
+	box-shadow: 2px 2px 3px #999;
+  z-index:100;
+}
+
+.my-float{
+	margin-top:16px;
+}
+  </style>
+    <!-- Boostrap Js -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js'  %}   "></script>
+
+<elevenlabs-convai agent-id="jhXqxemazVz4uXgSfQdt"></elevenlabs-convai><script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+
+
+
+    <!-- Lucide Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/1.0.0-beta.0/lucide.min.js"></script>
+
+
+    <script>
+      lucide.createIcons();
+
+      // Add interactivity for file upload and analysis
+      const fileInput = document.querySelector('input[name="xray"]');
+      const analyzeButton = document.querySelector('button[type="submit"]');
+
+      fileInput.addEventListener("change", (e) => {
+      if (e.target.files.length > 0) {
+        analyzeButton.disabled = false;
+      } else {
+        analyzeButton.disabled = true;
+      }
+      });
+
+      analyzeButton.addEventListener("click", (e) => {
+      e.preventDefault(); // Prevent the default form submission
+
+      analyzeButton.disabled = true;
+      analyzeButton.innerHTML = `
+      <div class="flex items-center">
+        <div class="w-4 h-4 border-2 border-t-transparent border-white rounded-full animate-spin mr-2"></div>
+        Analyzing...
+      </div>
+      `;
+
+      // Simulate analysis (replace with actual analysis logic)
+      setTimeout(() => {
+        const mockResults = [
+        {
+          status: "healthy",
+          confidence: 0.95,
+          recommendation:
+          "No pests or diseases detected. Your crop appears healthy.",
+          icon: "check-circle",
+          nextSteps: ["Continue regular monitoring.", "Maintain good practices."],
+        },
+        {
+          status: "potential_disease",
+          confidence: 0.75,
+          recommendation:
+          "Potential disease detected. Further investigation is recommended.",
+          icon: "alert-triangle",
+          nextSteps: [
+          "Consult with a local agricultural expert.",
+          "Take samples for lab testing.",
+          ],
+        },
+        {
+          status: "pest_infestation",
+          confidence: 0.85,
+          recommendation:
+          "Pest infestation detected. Immediate action is recommended.",
+          icon: "bug",
+          nextSteps: [
+          "Identify the type of pest.",
+          "Apply appropriate treatment.",
+          "Monitor the crop regularly.",
+          ],
+        },
+        ];
+
+        const randomResult =
+        mockResults[Math.floor(Math.random() * mockResults.length)];
+
+        // Update the results section with the mock result
+        const analysisResultDiv = document.querySelector(".card-body p");
+        analysisResultDiv.innerHTML = `
+        <i data-lucide="${randomResult.icon}" class="h-5 w-5 inline-block align-middle mr-1"></i>
+        <strong>${
+          randomResult.status === "healthy"
+          ? "Healthy Crop"
+          : randomResult.status === "potential_disease"
+          ? "Potential Disease Detected"
+          : "Pest Infestation Detected"
+        }</strong><br>
+        ${randomResult.recommendation}<br><br>
+        <strong>Next Steps:</strong>
+        <ul>
+          ${randomResult.nextSteps
+          .map((step) => `<li>${step}</li>`)
+          .join("")}
+        </ul>
+        `;
+
+        lucide.createIcons(); // Re-render Lucide icons
+
+        analyzeButton.disabled = false;
+        analyzeButton.textContent = "Analyze Crop";
+      }, 3000); // Simulate analysis time
+      });
+    </script>
+
+
+
+  </body>
+</html>
