@@ -33,7 +33,7 @@
 
   <body class="bg-light">
     <!-- Header -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary container-fluid position-fixed top-0">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary container-fluid position-fixed top-0" style="z-index: 100">
       <div class="container">
         <a
           class="navbar-brand d-flex align-items-center justify-content-center"
@@ -108,59 +108,80 @@
     </nav>
 
     <div
-      class="container-fluid hero"
+      class="container-fluid  hero py-5"
       style="
         background: rgb(255, 255, 255);
         background: linear-gradient(
-          73deg,
-          rgba(255, 255, 255, 1) 8%,
-          rgba(29, 180, 44, 0.253) 87%
+         73deg,
+         rgba(255, 255, 255, 1) 8%,
+         rgba(29, 180, 44, 0.253) 87%
         );
+        position: relative;
+        overflow: hidden;
       "
-    >
+     >
+      <!-- Background Image -->
+      <img
+        class="container-fluid"
+        src="{% static 'img/back1.jpg' %}"
+        style="
+         display: block;
+         width: 100%;
+         height: auto;
+         position: absolute;
+         top: 0;
+         left: 0;
+         z-index: -1;
+         object-fit: cover;
+        "
+        alt="Background"
+      />
+
       <div class="container px-4 py-5">
-        <div class="row flex-lg-row-reverse align-items-center g-2 py-5">
-          <div class="col-10 col-sm-8 col-lg-6">
-            <img
-              src="{% static 'Img/astra_removebg.png' %}"
-              class="d-block mx-lg-auto img-fluid"
-              alt="Bootstrap Themes"
-              width="400"
-              height="auto"
-              loading="lazy"
-            />
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+         <div class="col-10 col-sm-8 col-lg-6 mx-auto">
+          <img
+            src="{% static 'Img/astra_removebg.png' %}"
+            class="d-block mx-lg-auto img-fluid"
+            alt="Astra Kilimo AI"
+            width="400"
+            height="auto"
+            loading="lazy"
+          />
+         </div>
+         <div class="col-lg-6">
+          <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
+            Revolutionizing Farming with AI
+          </h1>
+          <p class="lead">
+            Get trusted farming advice on crops, pests, and general
+            agriculture. Send your questions or plant images via WhatsApp or
+            our website for quick, simple answers in English or Kiswahili.
+          </p>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <a
+             type="button"
+             class="btn text-white btn-lg px-4 me-md-2"
+             style="background-color: #71c55d"
+             href="{% url 'crop_analysis' %}"
+            >
+             <i class="fa-solid fa-seedling"></i>
+             Crop Analysis
+            </a>
+            <a
+             class="btn btn-outline-secondary btn-lg px-4"
+             href="{% url 'chat' %}"
+            >
+             <i class="fa-solid fa-comment"></i>
+             Chat with AI
+            </a>
           </div>
-          <div class="col-lg-6">
-            <h1 class="display-5 fw-bold text-body-emphasis lh-2 mb-4">
-              Revolutionizing Farming with AI
-            </h1>
-            <p class="lead">
-              Get trusted farming advice on crops, pests, and general agriculture. Send your questions or plant images via WhatsApp or our website for quick, simple answers in English or Kiswahili.   
-         </p>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
-              <a
-                type="button"
-                class="btn text-white btn-lg px-4 me-md-2"
-                style="background-color: #71c55d"
-                href="{% url 'crop_analysis' %}"
-                >
-                <!-- font-awesome crop -->
-                <i class="fa-solid fa-seedling"></i>
-                Crop Analysis</a
-              >
-                      <a
-                      class="btn btn-outline-secondary btn-lg px-4"
-                      href="{% url 'chat' %}"
-                      >
-                      <!-- font-awesome chat -->
-                      <i class="fa-solid fa-comment"></i>
-                      Chat with AI
-                      </a>
-            </div>
-          </div>
+         </div>
         </div>
       </div>
+     </div>
     </div>
+
 
     <!-- Adaptive learning section -->
     <section class="section my-20">
@@ -170,13 +191,13 @@
           <div>
             <img
               class="hidden lg:block"
-              src="{% static 'Img/hero4.png' %}"
+              src="{% static 'img/hero4.png' %}"
               style="width: 550px; height: auto"
               alt="emergency-desktop"
             />
             <img
               class="lg:hidden"
-              src="{% static 'Img/side1.png' %}"
+              src="{% static 'img/hero4.png' %}"
               style="width: 550px; height: auto"
               alt="emergency-mobile"
             />
@@ -222,7 +243,7 @@
     >
       <!-- Feature info -->
       <div class="flex flex-col gap-y-4 mb-12 sm:mb-14 md:mb-16 lg:mb-20 text-center lg:text-start">
-        <h4 class="text-sm text-primary font-bold" style="color: #71c55d">
+        <h4 class="text-sm  font-bold" style="color: #71c55d">
           Features
         </h4>
         <p class="text-slate-800 text-4xl leading-snug font-bold">

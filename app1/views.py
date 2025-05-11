@@ -95,7 +95,8 @@ def chat(request):
             # Use the Gemini API to get a response
             model = genai.GenerativeModel("gemini-1.5-flash")
             response = model.generate_content([{"text": user_input}])
-            return render(request, "app1/chat.html", {"response": response.text})
+            html_response = markdown.markdown(response.text)
+            return render(request, "app1/chat.html", {"response": html_response})
         except Exception as e:
             messages.error(request, f"Error chatting with AI: {e}")
             return redirect("chat")
