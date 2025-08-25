@@ -144,6 +144,45 @@
               required
               id="xrayInput"
             />
+
+            <!-- preview -->
+            <div class="preview mt-3" id="previewContainer" style="display:none;">
+              <img id="previewImage" src="" alt="Preview" class="img-fluid" />
+            </div>
+
+            <script>
+              document.addEventListener('DOMContentLoaded', function() {
+
+
+              document.getElementById('xrayInput').addEventListener('change', function(event) {
+              const previewContainer = document.getElementById('previewContainer');
+              const previewImage = document.getElementById('previewImage');
+              const file = event.target.files[0];
+
+              if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                previewContainer.style.display = 'none';
+                 document.getElementById('loadingDiv').style.background = 'url(' + e.target.result + ')';
+                 document.getElementById('loadingDiv').style.backgroundRepeat = 'no-repeat';
+                 document.getElementById('loadingDiv').style.backgroundSize = 'cover';
+
+                }
+
+                reader.readAsDataURL(file);
+              } else {
+                previewImage.src = '';
+                previewContainer.style.display = 'none';
+              }
+              });
+
+              });
+            </script>
+
+           
+    
             </div>
             <div class="d-grid">
             <button type="submit" class="btn " style="background-color: #71c55d; color: #fff;" id="analyzeButton">
@@ -157,15 +196,19 @@
       </div>
 
       <!-- Loading Section -->
-      <div class="row justify-content-center mt-5" id="loadingSection" style="display:none;">
-        <div class="col-md-8 text-center">
-        <div style="
+      <div class="row justify-content-center mt-5 text-center" id="loadingSection" style="display:none;">
+        <div class="col-md-8 text-center"  id="loadingDiv" style="height: 250px; width: 300px; position: relative;" >
+        <div  style="
           width: 300px;
           height: 250px;
-          background: linear-gradient(#03A9F4,#03A9F4), 
-          linear-gradient(90deg, #ffffff33 1px,transparent 0,transparent 19px),
-          linear-gradient(#ffffff33 1px,transparent 0,transparent 19px),
-          linear-gradient(transparent, #2196f387);
+          position: absolute;
+          left: 50%;
+          top:50%;
+          transform: translate(-50%,-50%);
+            background: linear-gradient(#71c55d,#71c55d), 
+            linear-gradient(90deg, #ffffff33 1px,transparent 0,transparent 19px),
+            linear-gradient(#ffffff33 1px,transparent 0,transparent 19px),
+            linear-gradient(transparent, #71c55d);
           background-size:100% 1.5%, 10% 100%,100% 10%, 100% 100%;
           background-repeat: no-repeat,repeat,repeat,no-repeat;
           background-position: 0 0,0 0, 0 0, 0 0;
@@ -173,16 +216,24 @@
           animation: move 2s infinite linear;
           margin: 0 auto; /* Center the loading div */
         "></div>
-        <p>Analyzing...</p>
+         
         </div>
+          <p class="text-center">Analyzing...</p>
       </div>
 
       <!-- Results Section -->
       {% if analysis_result %}
+    
       <div class="row justify-content-center mt-5" id="resultsSection">
         <div class="col-md-8">
         <div class="card shadow-lg border-0 rounded-lg">
-          <div class="card-body p-5">
+
+            <div class="d-flex justify-content-end mb-3 mt-3 me-3">
+              <button class="btn btn-warning" id="downloadButton" onclick="downloadPDF()">Download Report</button>
+            </div>
+
+          <div class="card-body p-5" id="resultsContainer">
+        
           <h2 class="h5 mb-4">Analysis Results</h2>
             <p class="text-gray-600">{{ analysis_result|safe }}</p>
           </div>
@@ -234,18 +285,35 @@
   </footer>
 
 
-
-
-
-
-
-
+  
 <!-- floating whatsapp button -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <a href="https://api.whatsapp.com/send?phone=+14155238886&text=Hello%21%20I%E2%80%99d%20like%20more%20information%20about%20my%20crops%20and%20farming%20support." class="float" target="_blank">
 <i class="fa fa-whatsapp my-float"></i>
 </a>
 
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+      function downloadPDF() {
+        const element = document.getElementById('resultsContainer');
+        const opt = {
+          margin: 0,
+          filename: 'crop_analysis_report.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().from(element).set(opt).save();
+      }
+    </script>
+
+    <!-- Custom CSS -->
   <style>
     .float{
 	position:fixed;
@@ -275,7 +343,7 @@
 
     <script src="{% static 'js/bootstrap.bundle.min.js'  %}   "></script>
 
-<elevenlabs-convai agent-id="jhXqxemazVz4uXgSfQdt"></elevenlabs-convai><script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+        <elevenlabs-convai agent-id="jhXqxemazVz4uXgSfQdt"></elevenlabs-convai><script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
 
 
 

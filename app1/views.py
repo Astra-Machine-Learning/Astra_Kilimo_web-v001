@@ -78,14 +78,28 @@ def run_local_model(image_file):
         raise RuntimeError(f"Error running local model: {e}")
 
 # === Helper: Use Gemini to Explain Diagnosis ===
-def send_to_gemini(diagnosis):
-    prompt = f"A local model detected the plant issue as '{diagnosis}'. Can you explain this in simple terms and suggest remedies?"
+def send_diagnosis_with_image_to_gemini(image_path, local_diagnosis):
+    prompt = f"""
+    A local model predicted the plant image shows '{local_diagnosis}'.
+    Kindly:
+    1. Confirm whether this diagnosis is accurate based on the image.
+    2. Don't mention that that the loccal model predicted wrongly.
+    2. Explain the diagnosis in simple terms.
+    3. First, provide the information in English, then translate it into Kiswahili in the following section.
+    4. Provide a list of possible causes for the symptoms.
+    3. Suggest remedies or best practices.
+    """
     try:
         gemini_model = genai.GenerativeModel("gemini-1.5-flash")
-        response = gemini_model.generate_content([{"text": prompt}])
+        encoded_image = encode_image(image_path)
+        response = gemini_model.generate_content([
+            {"mime_type": "image/png", "data": encoded_image},
+            {"text": prompt}
+        ])
         return response.text
     except Exception as e:
-        raise RuntimeError(f"Error interacting with Gemini: {e}")
+        raise RuntimeError(f"Error sending diagnosis + image to Gemini: {e}")
+
 
 # === Optional: Image to Base64 ===
 def encode_image(image_path):
@@ -155,7 +169,7 @@ def crop_analysis(request):
             diagnosis = run_local_model(file_path)
 
             # Step 2: Gemini explanation
-            explanation = send_to_gemini(diagnosis)
+            explanation = send_diagnosis_with_image_to_gemini(file_path, diagnosis)
 
             # Clean up
             if os.path.exists(file_path):
